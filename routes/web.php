@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::get('/registro', function(){
+    return view('register');
+})->name('register');
+
+Route::get('/esqueci_a_senha', function(){
+    return view('passwordRequest');
+})->name('passwordRequest');
+
+Route::get('/inicio', function(){
+    return view('FinancialResume');
+})->name('FinancialResume');
+
+
+/*
+Route::get('/recuperacao_de_senha', function(){
+    return view('resetPassword');
+})->name('resetPassword');
+*/
