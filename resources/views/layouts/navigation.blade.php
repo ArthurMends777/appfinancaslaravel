@@ -9,7 +9,7 @@
                         </x-nav-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Transações</a>
+                        <a class="nav-link" href="/transacoes">Transações</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Categorias</a>

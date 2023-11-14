@@ -29,3 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/transacoes', function () {
+        return view('./profile/transactions');
+})->middleware(['auth', 'verified'])->name('/transactions');
