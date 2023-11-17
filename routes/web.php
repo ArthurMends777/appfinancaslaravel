@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +32,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/transacoes', function () {
+/*Route::get('/transactions', function () {
         return view('./profile/transactions');
-})->middleware(['auth', 'verified'])->name('/transactions');
+})->middleware(['auth', 'verified'])->name('/transactions');*/
+
+Route::get('/transactions', [TransactionController::class, 'create'])->name('transactions.create');
+
+Route::post('/transactions',[TransactionController::class, 'store'])->name('transactions.store');
