@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|between:3,255',
-            'email' => 'required|email:rfc,dns',
             'password' => 'required',
+            'new_password' => 'required|between:3,255|confirmed',
+            'new_password_confirmation' => 'required',
         ];
     }
 
@@ -38,12 +38,11 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Nome é obrigatório.',
-            'name.min' => 'Nome deve ter ao menos 3 letras.',
-            'name.max' => 'Nome deve ter no máximo 255 letras.',
-            'email.required' => 'E-mail é orbrigatório.',
-            'email.email' => 'O e-mail deve ser válido.',
             'password.required' => 'Senha é obrigatória.',
+            'new_password.required' => 'Senha é obrigatória.',
+            'new_password.min' => 'Senha deve ter ao menos 3 letras.',
+            'new_password.confirmed' => 'A nova senha e confirmação de senha devem ser iguais.',
+            'new_password_confirmation.required' => 'Confirmação de senha é obrigatório.',
         ];
     }
 }

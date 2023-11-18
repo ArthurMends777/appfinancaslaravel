@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\TransactionController;
-use App\Models\Transaction;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,31 +12,25 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/cadastrar', [UserController::class, 'create'])->name('get.register');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::post('/cadastrar', [UserController::class, 'store'])->name('post.register');
+Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/home', [FinanceController::class, 'index'])->name('home');
+
+    Route::get('/transactions', [TransactionController::class, 'create'])->name('transactions.create');
+    Route::post('/transactions',[TransactionController::class, 'store'])->name('transactions.store');
 });
-
-require __DIR__.'/auth.php';
-
-/*Route::get('/transactions', function () {
-        return view('./profile/transactions');
-})->middleware(['auth', 'verified'])->name('/transactions');*/
-
-Route::get('/transactions', [TransactionController::class, 'create'])->name('transactions.create');
-
-Route::post('/transactions',[TransactionController::class, 'store'])->name('transactions.store');
