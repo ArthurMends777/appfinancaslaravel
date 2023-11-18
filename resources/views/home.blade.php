@@ -19,13 +19,13 @@
                         <a class="nav-link" href="#">Página Inicial</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Transações</a>
+                        <a class="nav-link" href="{{ route('transactions.create') }}">Transações</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Relatórios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sair</a>
+                        <a class="nav-link" href="{{ route('logout') }}">Sair</a>
                     </li>
                 </ul>
             </div>
