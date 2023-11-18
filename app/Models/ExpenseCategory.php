@@ -10,5 +10,5 @@ class ExpenseCategory extends Model
     use HasFactory;
 
     protected $table = 'expense_categories';
-    protected $fillable = ['id', 'name', 'description', 'color'];
+    protected $fillable = ['id', 'name', 'description', 'color', 'transaction_type'];
 }
