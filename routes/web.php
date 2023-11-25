@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -33,4 +34,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/transactions', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/transactions',[TransactionController::class, 'store'])->name('transactions.store');
+    
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 });
+

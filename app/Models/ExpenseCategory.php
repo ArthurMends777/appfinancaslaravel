@@ -11,4 +11,8 @@ class ExpenseCategory extends Model
 
     protected $table = 'expense_categories';
     protected $fillable = ['id', 'name', 'description', 'color', 'transaction_type'];
+
+    public function transactions() {
+        return $this->hasMany(Transaction::class, 'category_id');
+    }
 }

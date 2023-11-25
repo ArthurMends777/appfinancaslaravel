@@ -11,4 +11,12 @@ class BankAccount extends Model
 
     protected $table = 'bank_accounts';
     protected $fillable = ['user_id', 'account_name', 'bank_name',  'account_type', 'balance'];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function transactions() {
+        return $this->hasMany(Transaction::class, 'account_id');
+    }
 }
