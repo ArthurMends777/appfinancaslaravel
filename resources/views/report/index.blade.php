@@ -10,6 +10,17 @@
 
     <div class="container mt-5">
         <h1 class="mb-4">Relatórios</h1>
+        @if (Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+    
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
 
         @foreach ($transactions as $transaction)
             <div class="card mb-3">
@@ -36,6 +47,11 @@
                         <p class="card-text fs-4"><b class="text-danger">- R$ {{ $transaction['amount'] }}</b></p>
                     @endif
                     <p class="card-text">{{ $transaction['description'] }}</p>
+                    <form action="{{route('transactions.destroy', ['id'=>$transaction->id])}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">EXCLUIR</button>
+                    </form>
                 </div>
             </div>
         @endforeach

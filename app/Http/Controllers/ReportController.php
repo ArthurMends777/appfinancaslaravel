@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,6 +62,6 @@ class ReportController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       //
     }
 }

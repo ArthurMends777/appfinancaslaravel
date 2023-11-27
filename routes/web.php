@@ -36,5 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/transactions',[TransactionController::class, 'store'])->name('transactions.store');
     
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+    Route::delete('/transactions/delete/{id}',[TransactionController::class, 'destroy'])->name('transactions.destroy');
 });
 

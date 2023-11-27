@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
+
 class TransactionController extends Controller
 {
     /**
@@ -83,6 +84,15 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $transaction = Transaction::find($id);
+        if($transaction) {
+            $transaction->delete();
+            $user = Auth::user();
+            $transactions = $user->accounts()->with('transactions')->get()->pluck('transactions')->collapse()->sortByDesc('transaction_date');
+            return view('report.index',compact('transactions'));
+        } else{
+            Session::flash('error', 'Erro ao deletar a transação!');
+            redirect()->back()->withErrors('Erro ao deletar a transação!');
+        }
     }
 }
