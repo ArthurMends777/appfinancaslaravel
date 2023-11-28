@@ -92,7 +92,7 @@ class BankAccountController extends Controller
             return redirect()->back(); 
         }
         }catch(\Exception $error){
-            Session::flash('error', 'Erro ao deletar a conta bancária!');
+            Session::flash('error', 'Erro ao deletar a conta bancária! (Mais detalhes: ' . $error->getMessage() . ')');
         } 
         return redirect()->back();
     }

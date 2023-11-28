@@ -36,13 +36,13 @@
                         <span style="background-color: #000; color: #fff; padding: 3px; border-radius: 5px; font-size: 0.60rem; font-weight: bold">{{ $account->bank_name }}</span>
                     </div>
                     <p class="card-text">{{ $account->account_type }}</p>
-                    <form id="delete-form" action="{{route('accounts.destroy', ['id'=>$account->id])}}" method="POST">
+                    <form id="delete-form-{{ $account->id }}" action="{{route('accounts.destroy', ['id'=>$account->id])}}" method="POST">
                         @csrf
                         @method('DELETE')
                     </form>
                     
                     <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-danger" onclick="event.preventDefault(); if(confirm('Tem certeza que deseja excluir?')) {document.getElementById('delete-form').submit();}">DELETAR</button>
+                        <button class="btn btn-danger" onclick="event.preventDefault(); if(confirm('Tem certeza que deseja excluir?')) {document.getElementById('delete-form-{{ $account->id }}').submit();}">DELETAR</button>
                         
                         <form method="GET" action="{{route('accounts.edit', ['id'=>$account->id])}}">
                             <button class="btn btn-light" type="submit">EDITAR</button>
