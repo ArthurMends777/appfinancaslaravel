@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('home') }}"> WebMoneyManager </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">Página Inicial</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Cadastro
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Categorias</a></li>
+                          <li><a class="dropdown-item" href="#">Contas Bancárias</a></li>
+                          <li><a class="dropdown-item" href="{{ route('transactions.create') }}">Transações</a></li>
+                        </ul>
+                      </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('report.index') }}">Relatórios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}">Sair</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="container mt-5">
         <h1 class="mb-4">Relatórios</h1>
@@ -47,10 +78,13 @@
                         <p class="card-text fs-4"><b class="text-danger">- R$ {{ $transaction['amount'] }}</b></p>
                     @endif
                     <p class="card-text">{{ $transaction['description'] }}</p>
-                    <form action="{{route('transactions.destroy', ['id'=>$transaction->id])}}" method="POST">
+                    <form id="delete-form" action="{{route('transactions.destroy', ['id'=>$transaction->id])}}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">EXCLUIR</button>
+                    </form>
+                    <button class="btn btn-danger mt-3" onclick="event.preventDefault(); if(confirm('Tem certeza que deseja excluir?')) {document.getElementById('delete-form').submit();}">DELETAR</button>
+                    <form method="GET" action="{{route('transactions.edit', ['id'=>$transaction->id])}}">
+                        <button class="btn btn-light mt-3" type="submit">EDITAR</button>
                     </form>
                 </div>
             </div>

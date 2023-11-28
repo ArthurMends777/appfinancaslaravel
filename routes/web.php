@@ -37,5 +37,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::delete('/transactions/delete/{id}',[TransactionController::class, 'destroy'])->name('transactions.destroy');
+    Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
 });
 
