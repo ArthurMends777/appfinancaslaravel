@@ -65,8 +65,8 @@
                 <label for="color" class="form-label">Cor:</label>
                 <select id="color" name="color" class="form-select" onchange="validateColor()">
                     <option value="">Selecione</option>
-                    <option value="vermelho">Vermelho</option>
-                    <option value="verde">Verde</option>
+                    <option value="vermelho">Vermelho - Gasto</option>
+                    <option value="verde">Verde - Ganho</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Adicionar</button>

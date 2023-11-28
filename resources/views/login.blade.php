@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneyManager - Login</title>
+    <title>WebMoneyManager - Login</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -18,7 +18,7 @@
 
         .container {
             width: 100%;
-            height: 40vh;
+            height: 45vh;
             max-width: 400px;
             padding: 20px;
             border-radius: 10px;
@@ -100,7 +100,7 @@
 <body>
     <div class="container">
         <div class="card">
-            <div class="card-header"> Login </div>
+            <div class="card-header"> WebMoney Manager </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('authenticate') }}">
                     @csrf
@@ -125,7 +125,6 @@
 
                     <div class="links">
                         <a href="{{ route('get.register') }}"> Fazer cadastro </a>
-                        <a href="#"> Esqueci a senha </a>
                     </div>
 
                     <button type="submit" class="btn">Entrar</button>
