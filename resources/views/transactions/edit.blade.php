@@ -10,16 +10,18 @@
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+        }
+        main {
             display: flex;
-            align-items: center;
             justify-content: center;
-            /*height: 100vh;*/
+            align-items: center;
         }
 
         form {
             width: 300px;
             background-color: #fff;
-            padding: 20px;
+            padding: 30px;
+            margin: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -77,40 +79,42 @@
     </style>
 </head>
 <body>
-    <form method="POST" action="{{ route('transactions.update', ['id'=>$transaction->id])}}">
-        @csrf
-        @method('PUT')
-        <h1>Transações</h1>
-        @if (Session::has('success'))
-        <div class="alert alert-success">
+    <x-header />
+    <main>
+        <form method="POST" action="{{ route('transactions.update', ['id'=>$transaction->id])}}">
+            @csrf
+            @method('PUT')
+            <h1>Transações</h1>
+            @if (Session::has('success'))
+            <div class="alert alert-success">
             {{ Session::get('success') }}
-        </div>
-    @endif
+            </div>
+            @endif
     
-    @if (Session::has('error'))
-        <div class="alert alert-danger">
+            @if (Session::has('error'))
+            <div class="alert alert-danger">
             {{ Session::get('error') }}
-        </div>
-    @endif
+             </div>
+            @endif
     
-    @if ($errors->any())
-        <div class="alert alert-danger">
+            @if ($errors->any())
+            <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </div>
-    @endif
-        <div class="container">
-            <div class="row mb-3 mt-3">
+            </div>
+            @endif
+            <div class="container">
+            <div class="row mb-3 mt-3 align-items-center">
               <div class="col">
                 <label class="mb-2" for="transaction_type">Tipo de transação:</label>
-             <select class="form-select" id="transaction_type" name="transaction_type" required>
+                <select class="form-select" id="transaction_type" name="transaction_type" required>
                     <option value="">Selecione o tipo</option>
                     <option value="income" {{$transaction->transaction_type == "income" ? 'selected' : ''}}>GANHO</option>
                     <option value="expense" {{$transaction->transaction_type == "expense" ? 'selected' : ''}}>GASTO</option>
-            </select><br>
+                </select><br>
               </div>
               <div class="col">
                 <label class="mb-2" for="account_id">Conta Bancária:</label>
@@ -158,7 +162,8 @@
                 </div>
             </div>
         </div>   
-    </form>
+        </form>
+    </main>
 </body>
     <script>
         let selectType = document.getElementById('transaction_type');

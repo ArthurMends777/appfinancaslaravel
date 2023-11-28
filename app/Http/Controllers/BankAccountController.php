@@ -24,7 +24,7 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounts.create');
     }
 
     /**
@@ -32,7 +32,17 @@ class BankAccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $requestData = $request->all();
+            $requestData['user_id'] = Auth::id(); 
+            $requestData['balance'] = 0; 
+            BankAccount::create($requestData);
+            Session::flash('success', 'Conta bancária cadastrada!');
+            return redirect()->back();
+        }catch(\Exception $error){
+            Session::flash('error', 'Erro ao cadastrar a conta bancária!');
+            return redirect()->back()->withErrors($error->getMessage());
+        }
     }
 
     /**
@@ -48,7 +58,8 @@ class BankAccountController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $account = BankAccount::find($id);
+        return view('accounts.edit', compact('account'));
     }
 
     /**
@@ -56,7 +67,16 @@ class BankAccountController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $account = BankAccount::find($id);
+        try{
+            $account->update($request->all());
+            Session::flash('success', 'Atualizado com sucesso!');
+            return redirect()->back();
+        }catch(\Exception $error){
+            Session::flash('error', 'Erro ao atualizar a conta bancária!');
+            return redirect()->back()->withErrors($error->getMessage());
+        }
+
     }
 
     /**
@@ -64,11 +84,14 @@ class BankAccountController extends Controller
      */
     public function destroy(string $id)
     {
-        $account = BankAccount::find($id);
+        try{
+          $account = BankAccount::find($id);
         if($account) {
             $account->delete();
-            Session::flash('success', 'Conta bancária deletada com sucesso!');
-        } else{
+            Session::flash('success', 'Conta bancária deletada com sucesso!'); 
+            return redirect()->back(); 
+        }
+        }catch(\Exception $error){
             Session::flash('error', 'Erro ao deletar a conta bancária!');
         } 
         return redirect()->back();

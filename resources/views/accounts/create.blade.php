@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebMoneyManager - Transações </title>
+    <title>WebMoneyManager - Cadastro de Conta Bancária </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
     <style>
         body {
@@ -21,15 +21,13 @@
         form {
             width: 300px;
             background-color: #fff;
-            padding: 30px;
-            margin: 30px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-
         .container {
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         label {
@@ -83,9 +81,10 @@
 <body>
     <x-header />
     <main>
-        <form method="POST" action="{{ route('transactions.store')}}">
+        
+        <form method="POST" action="{{ route('accounts.store')}}">
             @csrf
-            <h1>Transações</h1>
+            <h3>Cadastro de Conta Bancária</h3>
             @if (Session::has('success'))
             <div class="alert alert-success">
                 {{ Session::get('success') }}
@@ -107,63 +106,34 @@
                 </ul>
             </div>
         @endif
-        <div class="container">
-            <div class="row mb-3 mt-3 align-items-center">
-                <div class="col">
-                    <label class="mb-2" for="transaction_type">Tipo de transação:</label>
-                    <select class="form-select" id="transaction_type" name="transaction_type" required>
+            <div class="container">
+                <div class="row mb-3 mt-3">
+                  <div class="col">
+                    <label class="mb-2" for="account_type">Tipo de conta:</label>
+                 <select class="form-select" id="transaction_type" name="account_type" required>
                         <option value="">Selecione o tipo</option>
-                        <option value="income">GANHO</option>
-                        <option value="expense">GASTO</option>
-                    </select><br>
+                        <option value="CC">Conta Corrente - C/C</option>
+                        <option value="CP">Conta Poupança</option>
+                        <option value="CS">Conta Salário</option>
+                </select><br>
+                  </div>
+                  
                 </div>
-                <div class="col">
-                    <label class="mb-2" for="account_id">Conta Bancária:</label>
-                    <select class="form-select" id="account_id" name="account_id" required>
-                        <option value="">Selecione a conta bancária</option>
-                        @foreach ($accounts as $account)
-                            <option value="{{$account->id}}">{{$account->bank_name}} ({{$account->account_type}})</option>
-                        @endforeach
-                    </select><br>
-                </div>
-            </div>
                 <div class="row mb-3">
                     <div class="col">
-                        <label class="mb-2" for="category_id">Categoria:</label>
-                        <select class="form-select" id="category_id" name="category_id" required disabled>
-                            <option value="">Selecione a categoria</option>
-                            @foreach ($categories as $category)
-                                <option value="{{$category->id}}" data-type="{{$category->transaction_type}}" >{{$category->name}}</option>
-                            @endforeach
-                        </select><br>
-                    </div>
-                    <div class="col">
-                        <label class="mb-2" for="transaction_date">Data e hora:</label>
+                        <label class="mb-2" for="account_name">Titular:</label><br>
                         <div class="input-group">
-                            @php
-                                // Definir o fuso horário para o Horário de Brasília
-                                $transactionDate = now()->setTimezone('America/Sao_Paulo')->format('Y-m-d\TH:i');
-                            @endphp
-                            <input class="form-control" id="transaction_date" type="datetime-local" name="transaction_date" value="{{ $transactionDate }}" required>
-                        </div>
-                    </div>
-                       <div class="col">
-                        <label class="mb-2" for="amount">Valor:</label><br>
-                        <div class="input-group">
-                            <span class="input-group-text">R$</span>
-                            <input class="form-control"  type="number"  id="amount" name="amount" step="0.01" placeholder="Informe o valor" min="0" required><br>
+                            <input class="form-control"  type="text"  id="account_name" name="account_name"  placeholder="Informe o nome do titular da conta" required><br>
                         </div>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <div class="col">
-                        <label class="mb-2" for="description">Descrição:</label><br>
+                        <label class="mb-2" for="bank_name">Nome do banco:</label><br>
                         <div class="input-group">
-                            <textarea class="form-control"  id="description" name="description" rows="5"></textarea><br>
+                            <input class="form-control"  type="text"  id="bank_name" name="bank_name"  placeholder="Informe o nome do banco" required><br>
                         </div>
                         <button class="btn btn-dark mt-3" type="submit">Cadastrar</button>
-                    </div>
-                    <div class="col">
                     </div>
                 </div>
             </div>   

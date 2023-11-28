@@ -23,7 +23,10 @@
                             <a class="nav-link" href="{{ route('transactions.create') }}">Transações</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('categories.index') }}">Categorizar</a>
+                            <a class="nav-link" href="{{ route('categories.index') }}">Categorização</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('accounts.index') }}">Conta Bancária</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('report.index') }}">Relatórios</a>

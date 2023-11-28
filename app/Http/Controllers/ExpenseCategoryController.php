@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ExpenseCategory;
+use Illuminate\Support\Facades\Session;
+
+use function Laravel\Prompts\error;
 
 class ExpenseCategoryController extends Controller
 {
@@ -25,8 +28,14 @@ class ExpenseCategoryController extends Controller
     }
     // Excluir uma categoria
     public function destroy($id){
-        $category = ExpenseCategory::findOrFail($id);
-        $category->delete();
+        try{
+            $category = ExpenseCategory::findOrFail($id);
+            $category->delete();
+            Session::flash('success', 'Removido com sucesso!');
+            return redirect()->back();
+        } catch(\Exception $error){
+            Session::flash('error', 'Não foi possível deletar a categoria porque existe transações vinculadas a ela!');
+        }
 
         return redirect()->route('categories.index');
     }
