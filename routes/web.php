@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ReportController;
@@ -30,8 +31,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::delete('/transactions/delete/{id}',[TransactionController::class, 'destroy'])->name('transactions.destroy');
 
+
     Route::get('/categories', [ExpenseCategoryController::class, 'index'])->name('categories.index');
     Route::post('/categories', [ExpenseCategoryController::class, 'store'])->name('categories.store');
     Route::delete('/categories/{id}', [ExpenseCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
+
+    Route::get('/accounts', [BankAccountController::class, 'index'])->name('accounts.index');
+    Route::get('/accounts/create', [BankAccountController::class, 'create'])->name('accounts.create');
+    Route::post('/accounts', [BankAccountController::class, 'store'])->name('accounts.store');
+    Route::delete('/accounts/delete/{id}', [BankAccountController::class, 'destroy'])->name('accounts.destroy');
+    Route::get('/accounts/{id}/edit', [BankAccountController::class, 'edit'])->name('accounts.edit');
+    Route::put('/accounts/{id}', [BankAccountController::class, 'update'])->name('accounts.update');
+
 });
 

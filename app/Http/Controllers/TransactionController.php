@@ -39,19 +39,11 @@ class TransactionController extends Controller
         try{
             Transaction::create($request->all());
             Session::flash('success', 'Transação cadastrada!');
-            redirect()->back();
+            return redirect()->back();
         }catch(\Exception $error){
             Session::flash('error', 'Erro ao cadastrar a transação!');
-            redirect()->back()->withErrors($error->getMessage());
+            return redirect()->back()->withErrors($error->getMessage());
         }
-        
-
-
-
-
-
-
-
 
         return redirect()->route('transactions.create');
     }
@@ -68,7 +60,11 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $transaction = Transaction::find($id);
+        $userID = Auth::id();
+        $accounts = BankAccount::where('user_id', $userID)->get();
+        $categories = ExpenseCategory::all();
+        return view('transactions.edit', compact('transaction', 'accounts', 'categories'));
     }
 
     /**
@@ -76,7 +72,16 @@ class TransactionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $transaction = Transaction::find($id);
+        try{
+            $transaction->update($request->all());
+            Session::flash('success', 'Atualizado com sucesso!');
+            return redirect()->back();
+        }catch(\Exception $error){
+            Session::flash('error', 'Erro ao atualizar a transação!');
+            return redirect()->back()->withErrors($error->getMessage());
+        }
+
     }
 
     /**
@@ -87,12 +92,10 @@ class TransactionController extends Controller
         $transaction = Transaction::find($id);
         if($transaction) {
             $transaction->delete();
-            $user = Auth::user();
-            $transactions = $user->accounts()->with('transactions')->get()->pluck('transactions')->collapse()->sortByDesc('transaction_date');
-            return view('report.index',compact('transactions'));
+            Session::flash('success', 'Transação deletada com sucesso!');
         } else{
             Session::flash('error', 'Erro ao deletar a transação!');
-            redirect()->back()->withErrors('Erro ao deletar a transação!');
-        }
+        } 
+        return redirect()->back();
     }
 }
