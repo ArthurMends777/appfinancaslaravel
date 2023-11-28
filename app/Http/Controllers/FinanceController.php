@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 
+
 class FinanceController extends Controller
 {
     /**
@@ -15,20 +16,29 @@ class FinanceController extends Controller
         // Obter o ID do usuário logado (você pode já ter isso de alguma forma)
         $userId = auth()->user()->id;
 
-        // Consultar as transações do usuário
-        $transactions = Transaction::where('account_id', $userId)
-            ->orderBy('transaction_date', 'desc')
-            ->limit(5)
-            ->get();
+        // Consultar as transações do usuário (new)
+        $user = auth()->user();
+        $transactions = $user->accounts()->with('transactions')->get()->pluck('transactions')->collapse()->sortByDesc('transaction_date');
+        $transactions = collect($transactions)->take(5);
 
-        // Calcular os totais de gastos e ganhos separadamente
-        $totalExpenses = Transaction::where('account_id', $userId)
-            ->where('transaction_type', 'expense')
-            ->sum('amount');
+        // Consultar as transações do usuário (old)
+        // $transactions = Transaction::where('account_id', $userId)
+        //     ->orderBy('transaction_date', 'desc')
+        //     ->limit(5)
+        //     ->get();
 
-        $totalIncome = Transaction::where('account_id', $userId)
-            ->where('transaction_type', 'income')
-            ->sum('amount');
+        // Calcular os totais de gastos e ganhos separadamente (new)
+        $totalExpenses = $user->accounts()->with('transactions')->get()->pluck('transactions')->collapse()->sortByDesc('transaction_date')->where('transaction_type', 'expense')->sum('amount');
+
+        // Calcular os totais de gastos e ganhos separadamente (old)
+        // $totalExpenses = Transaction::where('account_id', $userId)
+        //     ->where('transaction_type', 'expense')
+        //     ->sum('amount');
+
+       $totalIncome = $user->accounts()->with('transactions')->get()->pluck('transactions')->collapse()->sortByDesc('transaction_date')->where('transaction_type', 'income')->sum('amount');
+        // $totalIncome = Transaction::where('account_id', $userId)
+        //     ->where('transaction_type', 'income')
+        //     ->sum('amount');
 
         // Calcular o saldo total
         $totalBalance = $totalIncome - $totalExpenses;
