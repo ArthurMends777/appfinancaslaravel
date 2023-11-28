@@ -5,18 +5,10 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExpenseCategoryController;
+
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return redirect('/home');
@@ -37,5 +29,9 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::delete('/transactions/delete/{id}',[TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+    Route::get('/categories', [ExpenseCategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [ExpenseCategoryController::class, 'store'])->name('categories.store');
+    Route::delete('/categories/{id}', [ExpenseCategoryController::class, 'destroy'])->name('categories.destroy');
 });
 

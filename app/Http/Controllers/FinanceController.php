@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class FinanceController extends Controller
 {
@@ -11,7 +12,33 @@ class FinanceController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // Obter o ID do usuário logado (você pode já ter isso de alguma forma)
+        $userId = auth()->user()->id;
+
+        // Consultar as transações do usuário
+        $transactions = Transaction::where('account_id', $userId)
+            ->orderBy('transaction_date', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Calcular os totais de gastos e ganhos separadamente
+        $totalExpenses = Transaction::where('account_id', $userId)
+            ->where('transaction_type', 'expense')
+            ->sum('amount');
+
+        $totalIncome = Transaction::where('account_id', $userId)
+            ->where('transaction_type', 'income')
+            ->sum('amount');
+
+        // Calcular o saldo total
+        $totalBalance = $totalIncome - $totalExpenses;
+
+        return view('home', [
+            'transactions' => $transactions,
+            'totalExpenses' => $totalExpenses,
+            'totalIncome' => $totalIncome,
+            'totalBalance' => $totalBalance,
+        ]);
     }
 
     /**
